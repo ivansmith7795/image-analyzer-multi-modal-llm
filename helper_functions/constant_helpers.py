@@ -3,16 +3,16 @@ import json
 def find_branch(account_id):
      match account_id:
           case "413034898429":
-               return "sandbox"
+               return "prod"
           case _:
-               return "sandbox"
+               return "prod"
 
 def find_repo_branch(account_id):
      match account_id:
           case "413034898429":
-               return "sandbox"
+               return "prod"
           case _:
-               return "playpen"
+               return "master"
 
 def find_VPCID(account_id):
      match account_id:
@@ -25,6 +25,6 @@ def find_VPCID(account_id):
 def find_CodeStarARN(account_id):
      match account_id:
           case "413034898429":
-               return "arn:aws:codestar-connections:us-east-2:413034898429:connection/394e5ee7-0082-45fc-9da1-ca68c363ff58"
+               return "arn:aws:codestar-connections:us-east-2:413034898429:connection/c317c8d1-1d24-49c4-b56d-a10b70dc0483"
           case _:
-               return "arn:aws:codestar-connections:us-east-2:413034898429:connection/394e5ee7-0082-45fc-9da1-ca68c363ff58"
+               return "arn:aws:codestar-connections:us-east-2:413034898429:connection/c317c8d1-1d24-49c4-b56d-a10b70dc0483"
