@@ -1,6 +1,6 @@
 {
   "dependencies": {
     "nodejs": "^0.0.0",
-    "aws-cdk": "^2.25.0"
+    "aws-cdk": "^2.95.0"
   }
 }
