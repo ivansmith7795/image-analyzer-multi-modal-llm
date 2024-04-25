@@ -38,7 +38,7 @@ class Pipeline(Stack):
             f"{constants.CDK_APP_NAME}-synth",
             input=self.codepipeline_source,
             build_environment=codebuild.BuildEnvironment(
-                build_image=codebuild.LinuxBuildImage.STANDARD_6_0
+                build_image=codebuild.LinuxBuildImage.STANDARD_7_0
             ),
             partial_build_spec=codebuild.BuildSpec.from_object(self.synth_python_version),
             project_name=f"{constants.CDK_APP_NAME}-code-build-synth",
