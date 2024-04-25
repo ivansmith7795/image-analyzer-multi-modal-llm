@@ -42,7 +42,8 @@ class Pipeline(Stack):
             ),
             partial_build_spec=codebuild.BuildSpec.from_object(self.synth_python_version),
             project_name=f"{constants.CDK_APP_NAME}-code-build-synth",
-            install_commands=["./install-deps.sh"],
+            install_commands=["npm install",
+                              "pip install -r requirements.txt -r requirements-dev.txt"],
             commands=["npx cdk synth"],
             primary_output_directory="cdk.out",
         )
