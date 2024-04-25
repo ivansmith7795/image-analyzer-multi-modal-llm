@@ -12,9 +12,28 @@ ECR is used to host the container image which is custom built to use SageMaker l
 
 The solution is built on top of a Llama 2 model, instruction fine-tuned for visual data. The model is also quantized to int 4 to allow for running on compute optimized hardware. The vision-llm is not designed to respond in a chat-like manner, and expects a system prompt with instructions on how to intepret an image along with the image itself.
 
-The model is hosted using an auto-scale policy designed to scale-up the model endpoints depending on the number of requests per minute (RPMs). This can be modified in the solution in the Sagemaker resource section.
+The model is hosted using an auto-scale policy designed to scale-up the model endpoints depending on the number of requests per minute (RPMs). This can be modified in the solution in the endpoint configuration section of the Sagemaker resource group:
+```python
+# Endpoint configuration
+self.llama_model_endpoint_config = sagemaker.CfnEndpointConfig(self, f"{constants.CDK_APP_NAME}-7B-image2text-end-config",
+    production_variants=[sagemaker.CfnEndpointConfig.ProductionVariantProperty(
+        initial_variant_weight=1,
+        model_name=self.llama_model.model_name,
+        variant_name=f"{constants.CDK_APP_NAME}-7B-image2text-var1",
+        container_startup_health_check_timeout_in_seconds=120,
+        enable_ssm_access=False,
+        initial_instance_count=1,
+        instance_type="ml.g5.xlarge",
+        managed_instance_scaling=sagemaker.CfnEndpointConfig.ManagedInstanceScalingProperty(
+            max_instance_count=3,
+            min_instance_count=1,
+            status="ENABLED"
+        ),
+        model_data_download_timeout_in_seconds=1800
+    )],
+```
 
-# Invoking the Model Endpoint
+The ml.g5.xlarge instance is typically sufficient for hosting a model in 7B parameter size.
 
 You can call the model endpoint via the AWS SDK (boto3) using the standard model invocation scripts. Simply incude the name of your SageMaker model endpoint to call, include the system prompt and the encoded image in base64 format. Hyper parameters including max token count and temperature can also be set:
 
