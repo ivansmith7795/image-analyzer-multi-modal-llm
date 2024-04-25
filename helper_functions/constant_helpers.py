@@ -3,14 +3,14 @@ import json
 def find_branch(account_id):
      match account_id:
           case "413034898429":
-               return "prod"
+               return "master"
           case _:
-               return "prod"
+               return "master"
 
 def find_repo_branch(account_id):
      match account_id:
           case "413034898429":
-               return "prod"
+               return "master"
           case _:
                return "master"
 
