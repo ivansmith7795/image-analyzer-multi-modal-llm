@@ -1,0 +1,13 @@
+{
+    "dependencies": {
+        "nodejs": "^0.0.0",
+        "aws-cdk": "^2.25.0",
+        "@aws-cdk/aws-sagemaker-alpha": "^2.130.0-alpha.0"
+    },
+    "scripts": {
+      "ci_diff": "cdk diff ${CIRCLE_PROJECT_REPONAME}-solution/infrastructure 2>&1 | sed -r 's/\\x1B\\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g' || true",
+      "ci_synth": "cdk synth ${CIRCLE_PROJECT_REPONAME}-solution/infrastructure",
+      "ci_deploy": "cdk deploy ${CIRCLE_PROJECT_REPONAME}-solution/infrastructure --require-approval never"
+    }
+
+}
