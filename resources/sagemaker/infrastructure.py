@@ -38,11 +38,11 @@ class SageMakerModels(Construct):
         )
 
         # Endpoint configuration
-        self.llama_model_endpoint_config = sagemaker.CfnEndpointConfig(self, f"{constants.CDK_APP_NAME}-7B-image2text-end-config",
+        self.llama_model_endpoint_config = sagemaker.CfnEndpointConfig(self, f"{constants.CDK_APP_NAME}-7B-image2text",
             production_variants=[sagemaker.CfnEndpointConfig.ProductionVariantProperty(
                 initial_variant_weight=1,
                 model_name=self.llama_model.model_name,
-                variant_name=f"{constants.CDK_APP_NAME}-7B-image2text-var1",
+                variant_name=f"{constants.CDK_APP_NAME}-7B-image2text",
                 container_startup_health_check_timeout_in_seconds=120,
                 enable_ssm_access=False,
                 initial_instance_count=1,
@@ -54,17 +54,7 @@ class SageMakerModels(Construct):
                 ),
                 model_data_download_timeout_in_seconds=1800
             )],
-            #   async_inference_config=sagemaker.CfnEndpointConfig.AsyncInferenceConfigProperty(
-            #     output_config=sagemaker.CfnEndpointConfig.AsyncInferenceOutputConfigProperty(
-            #         s3_failure_path=f's3://{s3_model_bucket_name}/logs',
-            #         s3_output_path=f's3://{s3_model_bucket_name}/inference_output'
-            #     ),
-
-            #     # the properties below are optional
-            #     client_config=sagemaker.CfnEndpointConfig.AsyncInferenceClientConfigProperty(
-            #         max_concurrent_invocations_per_instance=2
-            #     )
-            # ),
+         
 
             endpoint_config_name=f"{constants.CDK_APP_NAME}-7B-image2text-endpoint-config"
         )
@@ -80,48 +70,4 @@ class SageMakerModels(Construct):
         self.llama_model_endpoint.add_dependency(self.llama_model_endpoint_config)
 
 
-        # # Image2Text Endpoint -- Autoscale
-        # self.variant_name = f"{constants.CDK_APP_NAME}-7B-image2text-var14"
-
-        # self.llama_model = sagemaker_alpha.Model(self, f"{constants.CDK_APP_NAME}-7B-image2text-var14",
-          
-        #     role=sagemaker_exection_role,
-        #     model_name=f"{constants.CDK_APP_NAME}-7B-model-image2text-var14",
-        #     containers =[sagemaker_alpha.ContainerDefinition(
-        #         image=sagemaker_alpha.ContainerImage.from_ecr_repository(ecr_model_repository, ecr_model_image_tag),
-        #         model_data=sagemaker_alpha.ModelData.from_bucket(bucket=s3_models_bucket, object_key='models/vision-model-7b-4bit.tar.gz')
-
-        #     )],
-        #     security_groups=[ec2.SecurityGroup.from_security_group_id(self, f"{constants.CDK_APP_NAME}-security-group", "sg-021feb8e91e399eac")],
-        #     vpc=self.vpc,
-        #     vpc_subnets=ec2.SubnetSelection(
-        #         subnets=[ 
-        #                     ec2.Subnet.from_subnet_id(self, f"{constants.CDK_APP_NAME}-subnet1", "subnet-077d5743bb28959e9"),
-        #                     ec2.Subnet.from_subnet_id(self, f"{constants.CDK_APP_NAME}-subnet2", "subnet-01da66527fd102e95"),
-        #                     ec2.Subnet.from_subnet_id(self, f"{constants.CDK_APP_NAME}-subnet3", "subnet-06f96304e57d580b0"),
-        #                     ec2.Subnet.from_subnet_id(self, f"{constants.CDK_APP_NAME}-subnet4", "subnet-05ece8d685d9c1174")
-        #                 ]
-        #     )
-        # )
-        # self.llama_test_endpoint_config = sagemaker_alpha.EndpointConfig(self, f"{constants.CDK_APP_NAME}-7B-image2text-end-config",
-        #     endpoint_config_name=f"{constants.CDK_APP_NAME}-7B-image2text-end-config",
-        #     instance_production_variants=[sagemaker_alpha.InstanceProductionVariantProps(
-        #         model=self.llama_model,
-        #         variant_name=self.variant_name,
-        #         initial_instance_count=4,
-        #         instance_type= sagemaker_alpha.InstanceType.G5_XLARGE
-        #     )
-        #     ]
-        # )
-
-        # endpoint = sagemaker_alpha.Endpoint(self, f"{constants.CDK_APP_NAME}-7B-image2text-endpoint",
-        #     endpoint_config=self.llama_test_endpoint_config, 
-        #     endpoint_name=f"{constants.CDK_APP_NAME}-7B-image2text-endpoint"
-        # )
-        # production_variant = endpoint.find_instance_production_variant(self.variant_name)
-        # instance_count = production_variant.auto_scale_instance_count(
-        #     max_capacity=5
-        # )
-        # instance_count.scale_on_invocations("LimitRPS",
-        #     max_requests_per_second=1
-        # )
+      
